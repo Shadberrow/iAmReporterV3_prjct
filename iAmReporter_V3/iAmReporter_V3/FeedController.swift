@@ -16,11 +16,11 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     var city = ""
     var page = 0
     var loadMore = true
-    var posts: [Post]? = nil
+    var posts = [Post]()
     
     func fetchNews() {
         
-        self.posts = [Post]()
+//        self.posts = [Post]()
         
         var url = URLRequest(url: URL(string: "http://test.mediaretail.com.ua:8095/category/\(newsCategory)/\(page)")!)
         url.httpMethod = "POST"
@@ -40,10 +40,13 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
                     for dictionary in postArray {
                         let post = Post()
                         post.setValuesForKeys(dictionary)
-                        self.posts?.append(post)
+                        self.posts.append(post)
                     }
                     DispatchQueue.main.async(execute: {
-                        self.collectionView?.reloadData()
+                        if self.page == 0 {
+                            self.collectionView?.reloadData()
+                        }
+                        
                     })
                 }
                 if let available = json["available"] as? Bool {
@@ -120,7 +123,7 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return posts?.count ?? 0
+        return posts.count 
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -130,7 +133,12 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! NewsCell
         DispatchQueue.main.async {
-            cell.post = self.posts?[indexPath.item]
+            cell.post = self.posts[indexPath.item]
+        }
+        if indexPath.item == posts.count - 1 {
+            if loadMore {
+                fetchNews()
+            }
         }
         return cell
     }
