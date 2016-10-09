@@ -43,10 +43,7 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
                         self.posts.append(post)
                     }
                     DispatchQueue.main.async(execute: {
-                        if self.page == 0 {
-                            self.collectionView?.reloadData()
-                        }
-                        
+                        self.collectionView?.reloadData()
                     })
                 }
                 if let available = json["available"] as? Bool {
