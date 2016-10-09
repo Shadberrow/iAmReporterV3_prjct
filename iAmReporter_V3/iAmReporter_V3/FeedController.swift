@@ -16,11 +16,10 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     var city = ""
     var page = 0
     var loadMore = true
+    var dispatch = false
     var posts = [Post]()
     
     func fetchNews() {
-        
-//        self.posts = [Post]()
         
         var url = URLRequest(url: URL(string: "http://test.mediaretail.com.ua:8095/category/\(newsCategory)/\(page)")!)
         url.httpMethod = "POST"
@@ -83,12 +82,13 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
         setupNavBarButtons()
     }
     
-    let menuBar: MenuBar = {
-        let mb = MenuBar()
-        return mb
-    }()
-    
     private func setupMenuBar() {
+        
+        let menuBar: MenuBar = {
+            let mb = MenuBar()
+            return mb
+        }()
+        
         view.addSubview(menuBar)
         view.addConstraintsWithFormat("H:|[v0]|", views: menuBar)
         view.addConstraintsWithFormat("V:|[v0(15)]", views: menuBar)
@@ -111,16 +111,18 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
         
     }
     
+    let leftMenuLauncher = LeftMenuLauncher()
+    
     func leftMenu() {
-        print("left")
+        leftMenuLauncher.showLeftMenu()
     }
     
     func rightMenu() {
-        print("right")
+        
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return posts.count 
+        return posts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -137,6 +139,7 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
                 fetchNews()
             }
         }
+        sleep(UInt32(0.5))
         return cell
     }
     
