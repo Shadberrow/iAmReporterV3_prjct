@@ -8,10 +8,15 @@
 
 import UIKit
 
+private var imageCache = NSCache<AnyObject, AnyObject>()
+
 class NewsCell: UICollectionViewCell {
     
     var post: Post? {
         didSet {
+            
+            setupImage()
+            
             theme.text = post?.theme
             
             text.text = post?.text
@@ -29,12 +34,39 @@ class NewsCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let smallPhotoUrl: UIImageView = {
+    func setupImage() {
+        if let imageURL = post?.smallPhotoURL {
+            
+            let encode = imageURL.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) // encode url string
+            let url = URL(string: encode!)
+            
+            self.smallPhotoUrl.image = nil
+            
+            if let imgFromCache = imageCache.object(forKey: url as AnyObject) {
+                self.smallPhotoUrl = imgFromCache as! UIImageView
+                return
+            }
+            
+            URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, imgErr) in
+                if imgErr != nil {
+                    print(imgErr)
+                    return
+                }
+                DispatchQueue.main.async(execute: {
+                    let imgToCache = UIImage(data: data!)
+                    imageCache.setObject(imgToCache!, forKey: url as AnyObject)
+                    self.smallPhotoUrl.image = UIImage(data: data!)
+                })
+            }).resume()
+        }
+    }
+    
+    var smallPhotoUrl: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.backgroundColor = UIColor.red
+        image.backgroundColor = UIColor.white
         return image
     }()
     
@@ -93,6 +125,9 @@ class NewsCell: UICollectionViewCell {
         addSubview(theme)
         addSubview(text)
         addSubview(separator)
+        
+//        addConstraintsWithFormat("H:|-8-[v0(110)]", views: smallPhotoUrl)
+//        addConstraintsWithFormat("V:|-10-[v0(100)]", views: smallPhotoUrl)
         
         addConstraintsWithFormat("H:|-8-[v0(110)]-8-[v1]-8-|", views: smallPhotoUrl, theme)
         addConstraintsWithFormat("H:|-8-[v0(110)]-8-[v1]-8-|", views: smallPhotoUrl, text)

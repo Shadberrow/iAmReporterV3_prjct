@@ -14,11 +14,13 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     var newsCategory = "all"
     var city = ""
-    var page = 2
-    var load = true
-    var posts = [Post]()
+    var page = 0
+    var loadMore = true
+    var posts: [Post]? = nil
     
     func fetchNews() {
+        
+        self.posts = [Post]()
         
         var url = URLRequest(url: URL(string: "http://test.mediaretail.com.ua:8095/category/\(newsCategory)/\(page)")!)
         url.httpMethod = "POST"
@@ -38,7 +40,17 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
                     for dictionary in postArray {
                         let post = Post()
                         post.setValuesForKeys(dictionary)
-                        self.posts.append(post)
+                        self.posts?.append(post)
+                    }
+                    DispatchQueue.main.async(execute: {
+                        self.collectionView?.reloadData()
+                    })
+                }
+                if let available = json["available"] as? Bool {
+                    if available == true {
+                        self.page += 1
+                    } else {
+                        self.loadMore = false
                     }
                 }
                 
@@ -46,8 +58,7 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
                 print(err)
             }
             
-        }.resume()
-        
+            }.resume()
     }
     
     override func viewDidLoad() {
@@ -69,6 +80,7 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
         navigationItem.titleView = titleView
         
         setupMenuBar()
+        setupNavBarButtons()
     }
     
     let menuBar: MenuBar = {
@@ -82,8 +94,33 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
         view.addConstraintsWithFormat("V:|[v0(15)]", views: menuBar)
     }
     
+    func setupNavBarButtons() {
+        let leftBarButton = UIButton(type: .custom)
+        leftBarButton.setImage(UIImage(named: "menu"), for: UIControlState.normal)
+        leftBarButton.addTarget(self, action: #selector(leftMenu), for: UIControlEvents.touchUpInside)
+        leftBarButton.frame = CGRect.init(x: 0, y: 0, width: 35, height: 35)
+        let barItemLeft = UIBarButtonItem.init(customView: leftBarButton)
+        navigationItem.leftBarButtonItem = barItemLeft
+        
+        let rightBarButton = UIButton(type: .custom)
+        rightBarButton.setImage(UIImage(named: "addNews"), for: UIControlState.normal)
+        rightBarButton.addTarget(self, action: #selector(rightMenu), for: UIControlEvents.touchUpInside)
+        rightBarButton.frame = CGRect.init(x: 0, y: 0, width: 35, height: 35)
+        let barItemRight = UIBarButtonItem.init(customView: rightBarButton)
+        navigationItem.rightBarButtonItem = barItemRight
+        
+    }
+    
+    func leftMenu() {
+        print("left")
+    }
+    
+    func rightMenu() {
+        print("right")
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return posts.count
+        return posts?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -92,7 +129,9 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! NewsCell
-        cell.post = posts[indexPath.item]
+        DispatchQueue.main.async {
+            cell.post = self.posts?[indexPath.item]
+        }
         return cell
     }
     
