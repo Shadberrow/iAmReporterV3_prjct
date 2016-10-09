@@ -11,16 +11,49 @@ import UIKit
 let cellID = "NewsCellID"
 
 class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-
-    var posts: [Post] = {
-        let blanketPost = Post()
-        blanketPost.theme = "We all gonna die  We all gonna die We all gonna die We all gonna die We all gonna die We all gonna die"
-        blanketPost.text = "All people will die  We all gonna die We all gonna die We all gonna die We all gonna die We all gonna die  We all gonna die We all gonna die We all gonna die We all gonna die We all gonna die ё We all gonna die We all gonna die We all gonna die We all gonna die We all gonna die  We all gonna die We all gonna die We all gonna die We all gonna die We all gonna die  We all gonna die We all gonna die We all gonna die We all gonna die We all gonna die"
-        return [blanketPost]
-    }()
+    
+    var newsCategory = "all"
+    var city = ""
+    var page = 2
+    var load = true
+    var posts = [Post]()
+    
+    func fetchNews() {
+        
+        var url = URLRequest(url: URL(string: "http://test.mediaretail.com.ua:8095/category/\(newsCategory)/\(page)")!)
+        url.httpMethod = "POST"
+        let postString = ("{\"city\":\"\(city)\"}").data(using: String.Encoding.utf8)
+        url.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        url.httpBody = postString
+        
+        URLSession.shared.dataTask(with: url) { (data, response, jsonErr) in
+            if jsonErr != nil {
+                print(jsonErr)
+                return
+            }
+            do {
+                let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as! NSDictionary
+                
+                if let postArray = json["news"] as? [[String: AnyObject]] {
+                    for dictionary in postArray {
+                        let post = Post()
+                        post.setValuesForKeys(dictionary)
+                        self.posts.append(post)
+                    }
+                }
+                
+            } catch let err {
+                print(err)
+            }
+            
+        }.resume()
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        fetchNews()
         
         collectionView?.backgroundColor = UIColor(white: 0.95, alpha: 1)
         collectionView?.register(NewsCell.self, forCellWithReuseIdentifier: cellID)
