@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		579101371DAA3DF1002BA3FF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 579101361DAA3DF1002BA3FF /* Main.storyboard */; };
 		579101751DAACA70002BA3FF /* LeftMenuLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579101741DAACA70002BA3FF /* LeftMenuLauncher.swift */; };
+		579101771DAAD5BF002BA3FF /* LeftMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579101761DAAD5BF002BA3FF /* LeftMenuCell.swift */; };
 		57E8F72E1DA8FF2600C13C03 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E8F72D1DA8FF2600C13C03 /* AppDelegate.swift */; };
 		57E8F7301DA8FF2600C13C03 /* FeedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E8F72F1DA8FF2600C13C03 /* FeedController.swift */; };
 		57E8F7351DA8FF2600C13C03 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57E8F7341DA8FF2600C13C03 /* Assets.xcassets */; };
@@ -22,6 +23,7 @@
 /* Begin PBXFileReference section */
 		579101361DAA3DF1002BA3FF /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		579101741DAACA70002BA3FF /* LeftMenuLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftMenuLauncher.swift; sourceTree = "<group>"; };
+		579101761DAAD5BF002BA3FF /* LeftMenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftMenuCell.swift; sourceTree = "<group>"; };
 		57E8F72A1DA8FF2600C13C03 /* iAmReporter_V3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iAmReporter_V3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57E8F72D1DA8FF2600C13C03 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		57E8F72F1DA8FF2600C13C03 /* FeedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedController.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 			children = (
 				57E8F73F1DA8FFC000C13C03 /* NewsCell.swift */,
 				57E8F7481DA9137700C13C03 /* MenuBar.swift */,
+				579101761DAAD5BF002BA3FF /* LeftMenuCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -189,6 +192,7 @@
 				579101751DAACA70002BA3FF /* LeftMenuLauncher.swift in Sources */,
 				57E8F7491DA9137700C13C03 /* MenuBar.swift in Sources */,
 				57E8F72E1DA8FF2600C13C03 /* AppDelegate.swift in Sources */,
+				579101771DAAD5BF002BA3FF /* LeftMenuCell.swift in Sources */,
 				57E8F7421DA8FFD000C13C03 /* Extensions.swift in Sources */,
 				57E8F7441DA9024500C13C03 /* Post.swift in Sources */,
 			);

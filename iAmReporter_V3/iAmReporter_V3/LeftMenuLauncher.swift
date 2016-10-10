@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LeftMenuLauncher: NSObject {
+class LeftMenuLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     let blackView = UIView()
     
@@ -18,6 +18,8 @@ class LeftMenuLauncher: NSObject {
         cv.backgroundColor = UIColor.white
         return cv
     }()
+    
+    let cellID = "LeftMenuCellID"
     
     func showLeftMenu() {
         
@@ -39,7 +41,7 @@ class LeftMenuLauncher: NSObject {
             
             collectionWiew.frame = CGRect.init(x: 0, y: 0, width: -window.frame.width, height: window.frame.height)
             
-            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: { 
+            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 self.blackView.alpha = 1
                 self.collectionWiew.frame = CGRect.init(x: 0, y: 0, width: window.frame.width * 0.7, height: window.frame.height)
                 }, completion: nil)
@@ -47,7 +49,7 @@ class LeftMenuLauncher: NSObject {
     }
     
     func handleDismiss() {
-        UIView.animate(withDuration: 0.5) {
+        UIView.animate(withDuration: 0.3) {
             self.blackView.alpha = 0
             if let window = UIApplication.shared.keyWindow {
                 self.collectionWiew.frame = CGRect.init(x: 0, y: 0, width: -window.frame.width, height: window.frame.height)
@@ -59,6 +61,39 @@ class LeftMenuLauncher: NSObject {
     override init() {
         super.init()
         
+        collectionWiew.dataSource = self
+        collectionWiew.delegate = self
+        
+        collectionWiew.register(LeftMenuCell.self, forCellWithReuseIdentifier: cellID)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize.init(width: self.collectionWiew.frame.width, height: self.collectionWiew.frame.height*1.5)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionWiew.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
+        return cell
+    }
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

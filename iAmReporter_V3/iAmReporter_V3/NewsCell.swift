@@ -14,12 +14,37 @@ class NewsCell: UICollectionViewCell {
     
     var post: Post? {
         didSet {
+            self.setupImage()
             
-            setupImage()
+            if let postText = self.post?.text {
+                self.text.text = postText
+            }
             
-            theme.text = post?.theme
+            if let postTheme = self.post?.theme {
+                self.theme.text = postTheme
+            }
             
-            text.text = post?.text
+            if let postViewCount = self.post?.countViews {
+                
+                let attachment = NSTextAttachment()
+                attachment.image = UIImage(named: "eye")
+                attachment.bounds = CGRect.init(x: 0, y: -3, width: 12, height: 12)
+                let attributedText = NSMutableAttributedString()
+                attributedText.append(NSAttributedString(attachment: attachment))
+                
+                attributedText.append(NSAttributedString(string: " \(postViewCount)", attributes: [NSForegroundColorAttributeName: UIColor(red: 127/255, green: 48/255, blue: 103/255, alpha: 1)]))
+                
+                self.countViews.attributedText = attributedText
+            }
+            
+            if let postDateView = self.post?.date {
+                let dayTimePeriodFormatter = DateFormatter()
+                dayTimePeriodFormatter.dateFormat = "dd.MM.YYYY hh.mm"
+                let formattedStringDate = dayTimePeriodFormatter.string(from: Date(timeIntervalSince1970: postDateView as! TimeInterval))
+                let str = NSAttributedString(string: "| \(formattedStringDate)", attributes: [NSForegroundColorAttributeName: UIColor.black])
+                
+                self.date.attributedText = str
+            }
         }
     }
     
@@ -34,16 +59,20 @@ class NewsCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    var imageUrlString: String?
+    
     func setupImage() {
         if let imageURL = post?.smallPhotoURL {
             
             let encode = imageURL.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) // encode url string
             let url = URL(string: encode!)
             
-            self.smallPhotoUrl.image = nil
+            imageUrlString = imageURL
+            
+            smallPhotoUrl.image = nil
             
             if let imgFromCache = imageCache.object(forKey: url as AnyObject) {
-                self.smallPhotoUrl = imgFromCache as! UIImageView
+                self.smallPhotoUrl.image = imgFromCache as? UIImage
                 return
             }
             
@@ -52,11 +81,13 @@ class NewsCell: UICollectionViewCell {
                     print(imgErr)
                     return
                 }
-                DispatchQueue.main.async(execute: {
+                DispatchQueue.main.async {
                     let imgToCache = UIImage(data: data!)
+                    if self.imageUrlString == imageURL {
+                        self.smallPhotoUrl.image = UIImage(data: data!)
+                    }
                     imageCache.setObject(imgToCache!, forKey: url as AnyObject)
-                    self.smallPhotoUrl.image = UIImage(data: data!)
-                })
+                }
             }).resume()
         }
     }
@@ -66,15 +97,15 @@ class NewsCell: UICollectionViewCell {
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.backgroundColor = UIColor.white
+//        image.backgroundColor = UIColor.white
         return image
     }()
     
     let countViews: UILabel = {
         let views = UILabel()
         views.translatesAutoresizingMaskIntoConstraints = false
-//        views.textColor = UIColor(red: 104/255, green: 104/255, blue: 104/255, alpha: 1)
-        views.backgroundColor = UIColor.yellow
+        views.font = UIFont(name: "HelveticaNeue-Light", size: 8)
+//        views.backgroundColor = UIColor.gray
         return views
     }()
     
@@ -82,7 +113,8 @@ class NewsCell: UICollectionViewCell {
         let date = UILabel()
         date.translatesAutoresizingMaskIntoConstraints = false
         date.textAlignment = .right
-        date.backgroundColor = UIColor.brown
+        date.font = UIFont(name: "HelveticaNeue-Light", size: 8)
+//        date.backgroundColor = UIColor.gray
         return date
     }()
     
@@ -90,6 +122,7 @@ class NewsCell: UICollectionViewCell {
         let theme = UILabel()
         theme.translatesAutoresizingMaskIntoConstraints = false
         theme.numberOfLines = 2
+        
         theme.font = UIFont.boldSystemFont(ofSize: 16)
 //        theme.backgroundColor = UIColor.blue
         return theme
@@ -133,8 +166,8 @@ class NewsCell: UICollectionViewCell {
         addConstraintsWithFormat("H:|-8-[v0(110)]-8-[v1]-8-|", views: smallPhotoUrl, text)
         addConstraintsWithFormat("H:|-8-[v0(35)][v1(75)]", views: countViews, date)
         addConstraintsWithFormat("H:|[v0]|", views: separator)
-        addConstraintsWithFormat("V:|-8-[v0(100)]-8-[v1]-8-|", views: smallPhotoUrl, countViews)
-        addConstraintsWithFormat("V:|-8-[v0(100)]-8-[v1]-8-|", views: smallPhotoUrl, date)
+        addConstraintsWithFormat("V:|-8-[v0(100)]-9-[v1]-9-|", views: smallPhotoUrl, countViews)
+        addConstraintsWithFormat("V:|-8-[v0(100)]-9-[v1]-9-|", views: smallPhotoUrl, date)
         addConstraintsWithFormat("V:|-8-[v0(40)]-3-[v1]-8-|", views: theme, text)
         addConstraintsWithFormat("V:[v0(1)]|", views: separator)
     }

@@ -41,9 +41,6 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
                         post.setValuesForKeys(dictionary)
                         self.posts.append(post)
                     }
-                    DispatchQueue.main.async(execute: {
-                        self.collectionView?.reloadData()
-                    })
                 }
                 if let available = json["available"] as? Bool {
                     if available == true {
@@ -51,6 +48,10 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
                     } else {
                         self.loadMore = false
                     }
+                }
+                
+                DispatchQueue.main.async {
+                    self.collectionView?.reloadData()
                 }
                 
             } catch let err {
@@ -70,6 +71,10 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
         collectionView?.contentInset = UIEdgeInsetsMake(15, 0, 0, 0)
         collectionView?.alwaysBounceVertical = true
         collectionView?.scrollIndicatorInsets = UIEdgeInsetsMake(15, 0, 0, 0)
+        
+        let windowLeftMenuApper = UISwipeGestureRecognizer(target: self, action: #selector(leftMenu))
+        windowLeftMenuApper.direction = .right
+        collectionView?.addGestureRecognizer(windowLeftMenuApper)
         
         navigationController?.navigationBar.isTranslucent = false
         
@@ -139,7 +144,6 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
                 fetchNews()
             }
         }
-        sleep(UInt32(0.5))
         return cell
     }
     
