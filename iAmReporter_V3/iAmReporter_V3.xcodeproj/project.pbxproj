@@ -99,8 +99,8 @@
 		57E8F7471DA911F900C13C03 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				57E8F73F1DA8FFC000C13C03 /* NewsCell.swift */,
 				57E8F7481DA9137700C13C03 /* MenuBar.swift */,
+				57E8F73F1DA8FFC000C13C03 /* NewsCell.swift */,
 				579101761DAAD5BF002BA3FF /* LeftMenuCell.swift */,
 			);
 			name = View;

@@ -35,11 +35,13 @@ class LeftMenuLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
             
             window.addSubview(blackView)
             window.addSubview(collectionWiew)
-
+            window.windowLevel = (UIWindowLevelStatusBar + 1)
+//            window.makeKeyAndVisible()
+            
             blackView.frame = window.frame
             blackView.alpha = 0
             
-            collectionWiew.frame = CGRect.init(x: 0, y: 0, width: -window.frame.width, height: window.frame.height)
+            collectionWiew.frame = CGRect.init(x: 0, y: 0, width: 0, height: window.frame.height)
             
             UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 self.blackView.alpha = 1
@@ -52,7 +54,8 @@ class LeftMenuLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
         UIView.animate(withDuration: 0.3) {
             self.blackView.alpha = 0
             if let window = UIApplication.shared.keyWindow {
-                self.collectionWiew.frame = CGRect.init(x: 0, y: 0, width: -window.frame.width, height: window.frame.height)
+                self.collectionWiew.frame = CGRect.init(x: 0, y: 0, width: -window.frame.width * 0.7, height: window.frame.height)
+                window.windowLevel = (UIWindowLevelStatusBar - 1)
             }
             
         }
@@ -65,6 +68,8 @@ class LeftMenuLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDe
         collectionWiew.delegate = self
         
         collectionWiew.register(LeftMenuCell.self, forCellWithReuseIdentifier: cellID)
+//        collectionWiew.contentInset = UIEdgeInsetsMake(19, 0, 0, 0)
+//        collectionWiew.scrollIndicatorInsets = UIEdgeInsetsMake(19, 0, 0, 0)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
