@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		572D7EE11DABC81200A904E6 /* LeftMenuButtonsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 572D7EE01DABC81200A904E6 /* LeftMenuButtonsController.swift */; };
 		579101371DAA3DF1002BA3FF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 579101361DAA3DF1002BA3FF /* Main.storyboard */; };
 		579101751DAACA70002BA3FF /* LeftMenuLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579101741DAACA70002BA3FF /* LeftMenuLauncher.swift */; };
 		579101771DAAD5BF002BA3FF /* LeftMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579101761DAAD5BF002BA3FF /* LeftMenuCell.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		572D7EE01DABC81200A904E6 /* LeftMenuButtonsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftMenuButtonsController.swift; sourceTree = "<group>"; };
 		579101361DAA3DF1002BA3FF /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		579101741DAACA70002BA3FF /* LeftMenuLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftMenuLauncher.swift; sourceTree = "<group>"; };
 		579101761DAAD5BF002BA3FF /* LeftMenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftMenuCell.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 			children = (
 				57E8F72F1DA8FF2600C13C03 /* FeedController.swift */,
 				579101741DAACA70002BA3FF /* LeftMenuLauncher.swift */,
+				572D7EE01DABC81200A904E6 /* LeftMenuButtonsController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -187,6 +190,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				572D7EE11DABC81200A904E6 /* LeftMenuButtonsController.swift in Sources */,
 				57E8F7301DA8FF2600C13C03 /* FeedController.swift in Sources */,
 				57E8F7401DA8FFC000C13C03 /* NewsCell.swift in Sources */,
 				579101751DAACA70002BA3FF /* LeftMenuLauncher.swift in Sources */,

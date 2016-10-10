@@ -32,7 +32,7 @@ class NewsCell: UICollectionViewCell {
                 let attributedText = NSMutableAttributedString()
                 attributedText.append(NSAttributedString(attachment: attachment))
                 
-                attributedText.append(NSAttributedString(string: " \(postViewCount)", attributes: [NSForegroundColorAttributeName: UIColor(red: 127/255, green: 48/255, blue: 103/255, alpha: 1)]))
+                attributedText.append(NSAttributedString(string: " \(postViewCount)", attributes: [NSForegroundColorAttributeName: UIColor.rgb(red: 127, green: 48, blue: 103)]))
                 
                 self.countViews.attributedText = attributedText
             }

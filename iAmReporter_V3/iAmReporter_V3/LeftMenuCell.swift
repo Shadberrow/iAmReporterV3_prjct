@@ -14,27 +14,89 @@ class LeftMenuCell: UICollectionViewCell {
         super.init(frame: frame)
         setupView()
         
-        allUkraineButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        addNewsButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        myReportersButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        answersButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        readersButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        topNewsButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        allReportersButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        allNewsButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        politicButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        lifeButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        humorButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        sportButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        otherButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        favoriteButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        rateAppButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        sendMailButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        allUkraineButton.addTarget(self, action: #selector(allUkraine), for: .touchUpInside)
+        addNewsButton.addTarget(self, action: #selector(addNews), for: .touchUpInside)
+        myReportersButton.addTarget(self, action: #selector(myReporters), for: .touchUpInside)
+        answersButton.addTarget(self, action: #selector(answers), for: .touchUpInside)
+        readersButton.addTarget(self, action: #selector(readers), for: .touchUpInside)
+        topNewsButton.addTarget(self, action: #selector(topNews), for: .touchUpInside)
+        allReportersButton.addTarget(self, action: #selector(allReporters), for: .touchUpInside)
+        allNewsButton.addTarget(self, action: #selector(allNews), for: .touchUpInside)
+        politicButton.addTarget(self, action: #selector(politics), for: .touchUpInside)
+        lifeButton.addTarget(self, action: #selector(life), for: .touchUpInside)
+        humorButton.addTarget(self, action: #selector(humor), for: .touchUpInside)
+        sportButton.addTarget(self, action: #selector(sport), for: .touchUpInside)
+        otherButton.addTarget(self, action: #selector(others), for: .touchUpInside)
+        favoriteButton.addTarget(self, action: #selector(favorite), for: .touchUpInside)
+        rateAppButton.addTarget(self, action: #selector(rateApp), for: .touchUpInside)
+        sendMailButton.addTarget(self, action: #selector(sendMail), for: .touchUpInside)
         
     }
     
-    func buttonTapped(sender: UIButton) {
-        print(sender.buttonType)
+    let pressButtonController = LeftMenuButtonController()
+    
+    func allUkraine() {
+        pressButtonController.allUkraine()
+    }
+    
+    func addNews() {
+        pressButtonController.addNews()
+    }
+    
+    func myReporters() {
+        pressButtonController.myReporters()
+    }
+    
+    func answers() {
+        pressButtonController.answers()
+    }
+    
+    func readers() {
+        pressButtonController.readers()
+    }
+    
+    func topNews() {
+        pressButtonController.topNews()
+    }
+    
+    func allReporters() {
+        pressButtonController.allReporters()
+    }
+    
+    func allNews() {
+        pressButtonController.allNews()
+    }
+    
+    func politics() {
+        pressButtonController.politics()
+    }
+    
+    func life() {
+        pressButtonController.life()
+    }
+    
+    func humor() {
+        pressButtonController.humor()
+    }
+    
+    func sport() {
+        pressButtonController.sport()
+    }
+    
+    func others() {
+        pressButtonController.others()
+    }
+    
+    func favorite() {
+        pressButtonController.favorite()
+    }
+    
+    func rateApp() {
+        pressButtonController.rateApp()
+    }
+    
+    func sendMail() {
+        pressButtonController.sendMail()
     }
     
     let topBarView: UIView = {

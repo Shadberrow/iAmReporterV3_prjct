@@ -19,7 +19,10 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     var dispatch = false
     var posts = [Post]()
     
-    func fetchNews() {
+    func fetchNews(newsCategory: String, city: String) {
+        
+        print(newsCategory)
+        print(city)
         
         var url = URLRequest(url: URL(string: "http://test.mediaretail.com.ua:8095/category/\(newsCategory)/\(page)")!)
         url.httpMethod = "POST"
@@ -64,7 +67,7 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchNews()
+        fetchNews(newsCategory: newsCategory, city: city)
         
         collectionView?.backgroundColor = UIColor(white: 0.95, alpha: 1)
         collectionView?.register(NewsCell.self, forCellWithReuseIdentifier: cellID)
@@ -94,9 +97,19 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
             return mb
         }()
         
+        let myView = UIView()
+        myView.backgroundColor =  UIColor.rgb(red: 127, green: 48, blue: 103)
+        view.addSubview(myView)
+        view.addConstraintsWithFormat("H:|[v0]|", views: myView)
+        view.addConstraintsWithFormat("V:[v0(20)]", views: myView)
+        
+        navigationController?.hidesBarsOnSwipe = true
+        
         view.addSubview(menuBar)
         view.addConstraintsWithFormat("H:|[v0]|", views: menuBar)
-        view.addConstraintsWithFormat("V:|[v0(15)]", views: menuBar)
+        view.addConstraintsWithFormat("V:[v0(20)]", views: menuBar)
+        
+        menuBar.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = .init(true)
     }
     
     func setupNavBarButtons() {
@@ -141,7 +154,7 @@ class FeedController: UICollectionViewController, UICollectionViewDelegateFlowLa
         }
         if indexPath.item == posts.count - 1 {
             if loadMore {
-                fetchNews()
+                fetchNews(newsCategory: newsCategory, city: city)
             }
         }
         return cell
